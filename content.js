@@ -172,6 +172,7 @@ window.addEventListener(
             }
             if (tmp === "exist") {
                 fit(type, size);
+                chrome.runtime.sendMessage(size);
             } else {
                 scrollCheck();
             }
