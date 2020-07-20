@@ -1,31 +1,39 @@
 <!DOCTYPE html>
 <html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Auto Aoom Out</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <title>Auto Aoom Out</title>
-  <link rel="stylesheet" href="popup.css">
-</head>
+  <body>
+    <div id="type-size">
+      <select id="type-select">
+        <option>zoom</option>
+        <option>width</option>
+        <option>no</option>
+      </select>
 
-<body>
-  <div id=type-size>
-    <select id="type-select">
-      <option>zoom</option>
-      <option>width</option>
-      <option>no</option>
-    </select>
+      <input id="size-input" type="number" min="50" max="100" />
+    </div>
 
-    <input id="size-input" type="number" min=50 max=100>
-  </div>
+    <div>
+      <input
+        type="button"
+        class="save"
+        id="save_domain"
+        value="このサイトを保存"
+      />
+      <input
+        type="button"
+        class="save"
+        id="save_url"
+        value="このページを保存"
+      />
+      <input type="button" class="save" id="reset" value="リセット" />
+      <!-- <input type="button" class="save" id="no-scrollbar" value="スクロールバー"> -->
+    </div>
 
-  <div>
-    <input type="button" class="save" id="save_domain" value="このサイトを保存">
-    <input type="button" class="save" id="save_url" value="このページを保存">
-    <input type="button" class="save" id="reset" value="リセット">
-    <input type="button" class="save" id="no-scrollbar" value="スクロールバー">
-  </div>
-
-  <script src="popup.js"></script>
-</body>
-
+    <script src="popup.js"></script>
+  </body>
 </html>
