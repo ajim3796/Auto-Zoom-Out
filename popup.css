@@ -1,5 +1,11 @@
+body {
+  width: 180px;
+}
+
 #type-size {
-  display: inline-flex;
+  display: inline-grid;
+  grid-template-columns: 80px 95px;
+  grid-gap: 5px;
   margin-bottom: 5px;
 }
 
@@ -8,30 +14,20 @@
   background-color: rgb(255, 215, 215);
   border: none;
   cursor: pointer;
-  font-size: 1.3em;
-  margin-right: 0.25rem;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 10px;
-  width: 70px;
+  padding-left: 0.5rem;
+  font-size: 1rem;
 }
 
 #size-input {
   background-color: rgb(200, 255, 200);
   border: none;
-  font-size: 1.3em;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 20px;
-  width: 56px;
+  font-size: 1rem;
 }
 
 .save {
-  font-size: 1rem;
-  margin-left: 2px;
-  margin-right: 2px;
+  font-size: 0.8rem;
   margin-bottom: 5px;
-  width: 146px;
+  width: 100%;
 }
 
 option[selected] {
