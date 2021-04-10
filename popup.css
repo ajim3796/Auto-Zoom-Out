@@ -4,8 +4,8 @@ body {
 
 #type-size {
   display: inline-grid;
-  grid-template-columns: 80px 95px;
-  grid-gap: 5px;
+  grid-template-columns: 87px 87px;
+  grid-gap: 6px;
   margin-bottom: 5px;
 }
 
@@ -14,13 +14,14 @@ body {
   background-color: rgb(255, 215, 215);
   border: none;
   cursor: pointer;
-  padding-left: 0.5rem;
+  padding-left: 0.8rem;
   font-size: 1rem;
 }
 
 #size-input {
   background-color: rgb(200, 255, 200);
   border: none;
+  padding-left: 0.8rem;
   font-size: 1rem;
 }
 
