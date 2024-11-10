@@ -1,36 +1,30 @@
 body {
   width: 180px;
 }
-
-#type-size {
-  display: inline-grid;
-  grid-template-columns: 87px 87px;
-  grid-gap: 6px;
-  margin-bottom: 5px;
-}
-
-#type-select {
-  -webkit-appearance: unset;
-  background-color: rgb(255, 215, 215);
-  border: none;
-  cursor: pointer;
-  padding-left: 0.8rem;
-  font-size: 1rem;
-}
-
-#size-input {
-  background-color: rgb(200, 255, 200);
-  border: none;
-  padding-left: 0.8rem;
-  font-size: 1rem;
-}
-
-.save {
+button {
   font-size: 0.8rem;
   margin-bottom: 5px;
   width: 100%;
 }
-
+#type-size {
+  display: inline-grid;
+  grid-template-columns: 55px 55px 55px;
+  grid-gap: 6px;
+  margin-bottom: 5px;
+}
+#type-select {
+  appearance: unset;
+  background-color: rgb(255, 215, 215);
+  border: none;
+  text-align: center;
+  font-size: 1rem;
+}
+#size-input {
+  background-color: rgb(200, 255, 200);
+  border: none;
+  text-align: center;
+  font-size: 1rem;
+}
 option[selected] {
   color: #090;
 }

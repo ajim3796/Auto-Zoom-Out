@@ -1,55 +1,61 @@
-chrome.tabs.query({ active: true, currentWindow: true }, function (tab) {
-  chrome.tabs.sendMessage(tab[0].id, "popup", function (response) {
-    if (response[0] === "zoom") {
-      document.getElementById("type-select").options[0].selected = true;
-    } else if (response[0] === "width") {
-      document.getElementById("type-select").options[1].selected = true;
-    } else {
-      document.getElementById("type-select").options[2].selected = true;
+const typeSelect = document.getElementById("type-select");
+const sizeInput = document.getElementById("size-input");
+const checkButton = document.getElementById("check");
+const saveHostButton = document.getElementById("save-host");
+const saveUrlButton = document.getElementById("save-url");
+const resetButton = document.getElementById("reset");
+let type;
+let size;
+
+async function sendMessageToActiveTab(message) {
+  const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true }).catch(e => { });
+  const response = await chrome.tabs.sendMessage(tab.id, message).catch(e => { });
+  return response;
+}
+
+(async () => {
+  const popup = await sendMessageToActiveTab({ msg: "popup", type: "", size: "" });
+  if (popup === void 0) {
+    typeSelect.disabled = true;
+    sizeInput.disabled = true;
+    checkButton.disabled = true;
+    saveHostButton.disabled = true;
+    saveUrlButton.disabled = true;
+    resetButton.disabled = true;
+  } else {
+    if (popup[0] === "zoom") {
+      typeSelect.options[0].selected = true;
+    } else if (popup[0] === "width") {
+      typeSelect.options[1].selected = true;
     }
-    document.getElementById("size-input").setAttribute("value", response[1]);
-  });
+    sizeInput.value = popup[1];
+  }
+})();
 
-  document.getElementById("type-select").onchange = function () {
-    var index = document.getElementById("type-select").selectedIndex;
-    var value = document.getElementById("size-input").value;
-    if (index === 0) {
-      chrome.tabs.sendMessage(tab[0].id, ["zoom", value]);
-    } else if (index === 1) {
-      chrome.tabs.sendMessage(tab[0].id, ["width", value]);
-    } else {
-      document.getElementById("size-input").setAttribute("value", "100");
-      chrome.tabs.sendMessage(tab[0].id, "no change");
-    }
-  };
+checkButton.onclick = async () => {
+  const checked = await sendMessageToActiveTab({ msg: "check", type: "", size: "" });
+  if (checked[0] === "zoom") {
+    typeSelect.options[0].selected = true;
+  } else if (checked[0] === "width") {
+    typeSelect.options[1].selected = true;
+  }
+  sizeInput.value = checked[1];
+}
 
-  document.getElementById("size-input").onchange = function () {
-    var index = document.getElementById("type-select").selectedIndex;
-    var value = document.getElementById("size-input").value;
-    if (index === 1) {
-      chrome.tabs.sendMessage(tab[0].id, ["width", value]);
-    } else {
-      chrome.tabs.sendMessage(tab[0].id, ["zoom", value]);
-    }
-  };
+saveHostButton.onclick = () => {
+  type = typeSelect.value;
+  size = sizeInput.value;
+  sendMessageToActiveTab({ msg: "save_host", type: type, size: size });
+};
 
-  document.getElementById("save_domain").onclick = function () {
-    chrome.tabs.sendMessage(tab[0].id, "save_domain");
-    document.getElementById("type-select").options[2].selected = true;
-    document.getElementById("size-input").setAttribute("value", "100");
-  };
+saveUrlButton.onclick = () => {
+  type = typeSelect.value;
+  size = sizeInput.value;
+  sendMessageToActiveTab({ msg: "save_url", type: type, size: size });
+};
 
-  document.getElementById("save_url").onclick = function () {
-    chrome.tabs.sendMessage(tab[0].id, "save_url");
-    document.getElementById("type-select").options[2].selected = true;
-    document.getElementById("size-input").setAttribute("value", "100");
-  };
-
-  document.getElementById("reset").onclick = function () {
-    chrome.tabs.sendMessage(tab[0].id, "reset");
-  };
-
-  document.getElementById("no-scrollbar").onclick = function () {
-    chrome.tabs.sendMessage(tab[0].id, "no scrollbar");
-  };
-});
+resetButton.onclick = () => {
+  typeSelect.options[0].selected = true;
+  sizeInput.value = "100";
+  sendMessageToActiveTab({ msg: "reset", type: "", size: "" });
+};
