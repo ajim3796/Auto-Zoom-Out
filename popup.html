@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <title>Auto Aoom Out</title>
+    <title>Auto Zoom Out</title>
     <link rel="stylesheet" href="popup.css" />
   </head>
 
@@ -11,27 +11,17 @@
       <select id="type-select">
         <option>zoom</option>
         <option>width</option>
-        <option>no</option>
       </select>
 
-      <input id="size-input" type="number" min="50" max="200" />
+      <input id="size-input" type="number" min="50" max="200" value="100" />
+      
+      <button id="check" type="button">計測</button>
     </div>
 
     <div>
-      <input
-        id="save_domain"
-        class="save"
-        type="button"
-        value="このサイトを保存"
-      />
-      <input
-        id="save_url"
-        class="save"
-        type="button"
-        value="このページを保存"
-      />
-      <input id="reset" class="save" type="button" value="リセット" />
-      <!-- <input id="no-scrollbar" class="save" type="button" value="スクロールバー"> -->
+      <button id="save-host" type="button">サイトに適用</button>
+      <button id="save-url" type="button">ページに適用</button>
+      <button id="reset" type="button">リセット</button>
     </div>
 
     <script src="popup.js"></script>
