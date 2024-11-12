@@ -7,23 +7,49 @@
   </head>
 
   <body>
-    <div id="type-size">
-      <select id="type-select">
-        <option>zoom</option>
-        <option>width</option>
-      </select>
+    <div class="extension-size">
+      <div class="attention" id="attention"></div>
 
-      <input id="size-input" type="number" min="50" max="200" value="100" />
-      
-      <button id="check" type="button">計測</button>
+      <div class="check-section">
+        <select class="select" id="type-element">
+          <option>zoom</option>
+          <option>width</option>
+        </select>
+
+        <input
+          class="input"
+          id="size-element"
+          type="number"
+          min="50"
+          max="200"
+          value="100"
+        />
+
+        <button id="check-button" type="button">適用</button>
+      </div>
+
+      <div class="button-section">
+        <button class="button" id="host-button" type="button">
+          このサイトでは使用しない
+        </button>
+        <button class="button" id="url-button" type="button">
+          このページでは使用しない
+        </button>
+        <div class="border"></div>
+        <button class="button" id="reset-button" type="button">リセット</button>
+      </div>
+
+      <details>
+        <summary class="summary text-section">拡張機能について</summary>
+        <div class="text-section">基本的に自動でサイズを調整します。</div>
+        <div class="text-section">
+          値を変更し適用することで1%単位での微調整が可能です。
+        </div>
+        <div class="text-section">
+          特定のサイト・ページで調整を無効にしたい場合は上記ボタンを使用してください。
+        </div>
+      </details>
     </div>
-
-    <div>
-      <button id="save-host" type="button">サイトに適用</button>
-      <button id="save-url" type="button">ページに適用</button>
-      <button id="reset" type="button">リセット</button>
-    </div>
-
     <script src="popup.js"></script>
   </body>
 </html>

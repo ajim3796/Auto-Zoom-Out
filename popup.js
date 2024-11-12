@@ -1,9 +1,10 @@
-const typeSelect = document.getElementById("type-select");
-const sizeInput = document.getElementById("size-input");
-const checkButton = document.getElementById("check");
-const saveHostButton = document.getElementById("save-host");
-const saveUrlButton = document.getElementById("save-url");
-const resetButton = document.getElementById("reset");
+const attention = document.getElementById("attention");
+const typeElement = document.getElementById("type-element");
+const sizeElement = document.getElementById("size-element");
+const checkButton = document.getElementById("check-button");
+const hostButton = document.getElementById("host-button");
+const urlButton = document.getElementById("url-button");
+const resetButton = document.getElementById("reset-button");
 let type;
 let size;
 
@@ -16,46 +17,43 @@ async function sendMessageToActiveTab(message) {
 (async () => {
   const popup = await sendMessageToActiveTab({ msg: "popup", type: "", size: "" });
   if (popup === void 0) {
-    typeSelect.disabled = true;
-    sizeInput.disabled = true;
+    typeElement.disabled = true;
+    sizeElement.disabled = true;
     checkButton.disabled = true;
-    saveHostButton.disabled = true;
-    saveUrlButton.disabled = true;
+    hostButton.disabled = true;
+    urlButton.disabled = true;
     resetButton.disabled = true;
+    attention.textContent = "このページでは使用できません";
   } else {
     if (popup[0] === "zoom") {
-      typeSelect.options[0].selected = true;
+      typeElement.options[0].selected = true;
     } else if (popup[0] === "width") {
-      typeSelect.options[1].selected = true;
+      typeElement.options[1].selected = true;
     }
-    sizeInput.value = popup[1];
+    sizeElement.value = popup[1];
   }
 })();
 
 checkButton.onclick = async () => {
-  const checked = await sendMessageToActiveTab({ msg: "check", type: "", size: "" });
-  if (checked[0] === "zoom") {
-    typeSelect.options[0].selected = true;
-  } else if (checked[0] === "width") {
-    typeSelect.options[1].selected = true;
-  }
-  sizeInput.value = checked[1];
+  type = typeElement.value;
+  size = sizeElement.value;
+  sendMessageToActiveTab({ msg: "check", type: type, size: size });
 }
 
-saveHostButton.onclick = () => {
-  type = typeSelect.value;
-  size = sizeInput.value;
-  sendMessageToActiveTab({ msg: "save_host", type: type, size: size });
+hostButton.onclick = () => {
+  type = typeElement.value;
+  size = sizeElement.value;
+  sendMessageToActiveTab({ msg: "save_host", type: "", size: "" });
 };
 
-saveUrlButton.onclick = () => {
-  type = typeSelect.value;
-  size = sizeInput.value;
-  sendMessageToActiveTab({ msg: "save_url", type: type, size: size });
+urlButton.onclick = () => {
+  type = typeElement.value;
+  size = sizeElement.value;
+  sendMessageToActiveTab({ msg: "save_url", type: "", size: "" });
 };
 
 resetButton.onclick = () => {
-  typeSelect.options[0].selected = true;
-  sizeInput.value = "100";
+  typeElement.options[0].selected = true;
+  sizeElement.value = "100";
   sendMessageToActiveTab({ msg: "reset", type: "", size: "" });
 };

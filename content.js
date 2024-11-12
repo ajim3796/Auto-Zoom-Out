@@ -38,8 +38,9 @@ const getItems = () => {
         type = items[hostWidth][0];
         size = items[hostWidth][1];
       } else {
-        type = "zoom";
-        size = "100";
+        document.body.style.zoom = "";
+        document.body.style.width = "";
+        scrollCheck();
       }
     })
     .then(fit)
@@ -136,24 +137,25 @@ const reset = () => {
 
 getItems();
 
-window.addEventListener('resize', getItems);
+let timer;
+window.addEventListener("resize", () => {
+  clearTimeout(timer);
+  timer = setTimeout(getItems, 500);
+});
+
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.msg === "popup") {
     sendResponse([type, size]);
   } else if (request.msg === "check") {
-    scrollCheck();
+    type = request.type;
+    size = request.size;
+    fit();
     sendResponse([type, size]);
   } else if (request.msg === "save_host") {
-    type = request.type;
-    size = request.size;
-    setHost();
-    fit();
+    setNoChange();
   } else if (request.msg === "save_url") {
-    type = request.type;
-    size = request.size;
-    setUrl();
-    fit();
+    setNoChange();
   } else if (request.msg === "reset") {
     type = "zoom";
     size = "100";

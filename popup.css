@@ -1,30 +1,40 @@
-body {
+.extension-size {
   width: 180px;
 }
-button {
-  font-size: 0.8rem;
-  margin-bottom: 5px;
+.attention {
+  color: red;
+  text-align: center;
+}
+.check-section {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+.select {
+  width: 32%;
+  appearance: unset;
+  text-align: center;
+  font-size: 1rem;
+}
+.input {
+  width: 32%;
+  text-align: center;
+  font-size: 1rem;
+}
+.text-section {
+  margin-top: 8px;
+  margin-left: 5px;
+  margin-right: 5px;
+  color: gray;
+}
+.button {
+  margin-top: 8px;
   width: 100%;
 }
-#type-size {
-  display: inline-grid;
-  grid-template-columns: 55px 55px 55px;
-  grid-gap: 6px;
-  margin-bottom: 5px;
-}
-#type-select {
-  appearance: unset;
-  background-color: rgb(255, 215, 215);
-  border: none;
-  text-align: center;
-  font-size: 1rem;
-}
-#size-input {
-  background-color: rgb(200, 255, 200);
-  border: none;
-  text-align: center;
-  font-size: 1rem;
-}
-option[selected] {
-  color: #090;
+.border {
+  border-bottom: 1px solid gray;
+  margin-top: 8px;
+  }
+.summary {
+  cursor: help;
 }
