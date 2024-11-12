@@ -2,38 +2,54 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <title>Auto Aoom Out</title>
+    <title>Auto Zoom Out</title>
     <link rel="stylesheet" href="popup.css" />
   </head>
 
   <body>
-    <div id="type-size">
-      <select id="type-select">
-        <option>zoom</option>
-        <option>width</option>
-        <option>no</option>
-      </select>
+    <div class="extension-size">
+      <div class="attention" id="attention"></div>
 
-      <input id="size-input" type="number" min="50" max="200" />
+      <div class="check-section">
+        <select class="select" id="type-element">
+          <option>zoom</option>
+          <option>width</option>
+        </select>
+
+        <input
+          class="input"
+          id="size-element"
+          type="number"
+          min="50"
+          max="200"
+          value="100"
+        />
+
+        <button id="check-button" type="button">適用</button>
+      </div>
+
+      <div class="button-section">
+        <button class="button" id="host-button" type="button">
+          このサイトでは使用しない
+        </button>
+        <button class="button" id="url-button" type="button">
+          このページでは使用しない
+        </button>
+        <div class="border"></div>
+        <button class="button" id="reset-button" type="button">リセット</button>
+      </div>
+
+      <details>
+        <summary class="summary text-section">拡張機能について</summary>
+        <div class="text-section">基本的に自動でサイズを調整します。</div>
+        <div class="text-section">
+          値を変更し適用することで1%単位での微調整が可能です。
+        </div>
+        <div class="text-section">
+          特定のサイト・ページで調整を無効にしたい場合は上記ボタンを使用してください。
+        </div>
+      </details>
     </div>
-
-    <div>
-      <input
-        id="save_domain"
-        class="save"
-        type="button"
-        value="このサイトを保存"
-      />
-      <input
-        id="save_url"
-        class="save"
-        type="button"
-        value="このページを保存"
-      />
-      <input id="reset" class="save" type="button" value="リセット" />
-      <!-- <input id="no-scrollbar" class="save" type="button" value="スクロールバー"> -->
-    </div>
-
     <script src="popup.js"></script>
   </body>
 </html>

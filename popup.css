@@ -1,36 +1,40 @@
-body {
+.extension-size {
   width: 180px;
 }
-
-#type-size {
-  display: inline-grid;
-  grid-template-columns: 87px 87px;
-  grid-gap: 6px;
-  margin-bottom: 5px;
+.attention {
+  color: red;
+  text-align: center;
 }
-
-#type-select {
-  -webkit-appearance: unset;
-  background-color: rgb(255, 215, 215);
-  border: none;
-  cursor: pointer;
-  padding-left: 0.8rem;
+.check-section {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+.select {
+  width: 32%;
+  appearance: unset;
+  text-align: center;
   font-size: 1rem;
 }
-
-#size-input {
-  background-color: rgb(200, 255, 200);
-  border: none;
-  padding-left: 0.8rem;
+.input {
+  width: 32%;
+  text-align: center;
   font-size: 1rem;
 }
-
-.save {
-  font-size: 0.8rem;
-  margin-bottom: 5px;
+.text-section {
+  margin-top: 8px;
+  margin-left: 5px;
+  margin-right: 5px;
+  color: gray;
+}
+.button {
+  margin-top: 8px;
   width: 100%;
 }
-
-option[selected] {
-  color: #090;
+.border {
+  border-bottom: 1px solid gray;
+  margin-top: 8px;
+  }
+.summary {
+  cursor: help;
 }
