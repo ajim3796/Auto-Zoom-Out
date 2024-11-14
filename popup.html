@@ -8,6 +8,13 @@
 
   <body>
     <div class="extension-size">
+      <div class="on-off-section">
+        <div class="toggle-text">自動サイズ調整</div>
+        <label class="toggle-button">
+          <input id="toggle-button" type="checkbox" checked />
+        </label>
+      </div>
+
       <div class="attention" id="attention"></div>
 
       <div class="check-section">
@@ -25,7 +32,9 @@
           value="100"
         />
 
-        <button id="check-button" type="button">適用</button>
+        <button class="check-button" id="check-button" type="button">
+          適用
+        </button>
       </div>
 
       <div class="button-section">
@@ -41,9 +50,9 @@
 
       <details>
         <summary class="summary text-section">拡張機能について</summary>
-        <div class="text-section">基本的に自動でサイズを調整します。</div>
+        <div class="text-section">自動でページサイズを調整します。</div>
         <div class="text-section">
-          値を変更し適用することで1%単位での微調整が可能です。
+          自動サイズ調整をオフにすることで手動調整のみにすることも可能です。
         </div>
         <div class="text-section">
           特定のサイト・ページで調整を無効にしたい場合は上記ボタンを使用してください。

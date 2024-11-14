@@ -1,7 +1,48 @@
 .extension-size {
-  width: 180px;
+  width: 200px;
+}
+.on-off-section {
+  display: flex;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.toggle-text {
+  font-size: 1rem;
+}
+.toggle-button {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 2rem;
+  height: 1.01rem;
+  border-radius: 50px;
+  background-color: #dddddd;
+  cursor: pointer;
+  transition: background-color;
+  margin: auto 5px auto auto;
+}
+.toggle-button:has(:checked) {
+  background-color: #4bd865;
+}
+.toggle-button::after {
+  position: absolute;
+  left: 0;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgb(0 0 0 / 20%);
+  background: #fff;
+  content: "";
+  transition: left;
+}
+.toggle-button:has(:checked)::after {
+  left: 1rem;
+}
+.toggle-button input {
+  display: none;
 }
 .attention {
+  font-size: 0.85rem;
   color: red;
   text-align: center;
 }
@@ -21,6 +62,9 @@
   text-align: center;
   font-size: 1rem;
 }
+.check-button {
+  width: 26%;
+}
 .text-section {
   margin-top: 8px;
   margin-left: 5px;
@@ -34,7 +78,7 @@
 .border {
   border-bottom: 1px solid gray;
   margin-top: 8px;
-  }
+}
 .summary {
   cursor: help;
 }
