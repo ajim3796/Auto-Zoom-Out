@@ -1,3 +1,4 @@
+const toggleButton = document.getElementById("toggle-button");
 const attention = document.getElementById("attention");
 const typeElement = document.getElementById("type-element");
 const sizeElement = document.getElementById("size-element");
@@ -9,14 +10,27 @@ let type;
 let size;
 
 async function sendMessageToActiveTab(message) {
-  const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true }).catch(e => { });
-  const response = await chrome.tabs.sendMessage(tab.id, message).catch(e => { });
+  const [tab] = await chrome.tabs
+    .query({ active: true, lastFocusedWindow: true })
+    .catch((e) => {});
+  const response = await chrome.tabs
+    .sendMessage(tab.id, message)
+    .catch((e) => {});
   return response;
 }
 
 (async () => {
-  const popup = await sendMessageToActiveTab({ msg: "popup", type: "", size: "" });
+  const toggleCheck = await chrome.storage.local.get("toggle").catch((e) => {});
+  if (toggleCheck.toggle === 0) {
+    toggleButton.checked = false;
+  }
+  const popup = await sendMessageToActiveTab({
+    msg: "popup",
+    type: "",
+    size: "",
+  });
   if (popup === void 0) {
+    toggleButton.disabled = true;
     typeElement.disabled = true;
     sizeElement.disabled = true;
     checkButton.disabled = true;
@@ -34,11 +48,19 @@ async function sendMessageToActiveTab(message) {
   }
 })();
 
-checkButton.onclick = async () => {
+toggleButton.onchange = () => {
+  if (toggleButton.checked) {
+    chrome.storage.local.set({ toggle: 1 });
+  } else {
+    chrome.storage.local.set({ toggle: 0 });
+  }
+};
+
+checkButton.onclick = () => {
   type = typeElement.value;
   size = sizeElement.value;
   sendMessageToActiveTab({ msg: "check", type: type, size: size });
-}
+};
 
 hostButton.onclick = () => {
   type = typeElement.value;

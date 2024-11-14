@@ -19,33 +19,30 @@ const fit = () => {
   }
 };
 
-const getItems = () => {
+const getItems = async () => {
   width = window.innerWidth;
   urlWidth = url + " " + width;
   hostWidth = host + " " + width;
-  chrome.storage.local.get()
-    .then((items) => {
-      if (items[url]) {
-        type = items[url][0];
-        size = items[url][1];
-      } else if (items[host]) {
-        type = items[host][0];
-        size = items[host][1];
-      } else if (items[urlWidth]) {
-        type = items[urlWidth][0];
-        size = items[urlWidth][1];
-      } else if (items[hostWidth]) {
-        type = items[hostWidth][0];
-        size = items[hostWidth][1];
-      } else {
-        document.body.style.zoom = "";
-        document.body.style.width = "";
-        scrollCheck();
-      }
-    })
-    .then(fit)
-    .catch(e => { console.error(e); });
-}
+  const localData = await chrome.storage.local.get().catch((e) => {});
+  if (localData[url]) {
+    type = localData[url][0];
+    size = localData[url][1];
+  } else if (localData[host]) {
+    type = localData[host][0];
+    size = localData[host][1];
+  } else if (localData[urlWidth]) {
+    type = localData[urlWidth][0];
+    size = localData[urlWidth][1];
+  } else if (localData[hostWidth]) {
+    type = localData[hostWidth][0];
+    size = localData[hostWidth][1];
+  } else {
+    document.body.style.zoom = "";
+    document.body.style.width = "";
+    return false;
+  }
+  return true;
+};
 
 const scrollCheck = () => {
   wHeight = window.innerHeight;
@@ -53,9 +50,9 @@ const scrollCheck = () => {
   if (wHeight === cHeight) {
     type = "zoom";
     size = "100";
-  } else {
-    sizeCheck();
+    return false;
   }
+  return true;
 };
 
 const sizeCheck = () => {
@@ -71,20 +68,17 @@ const sizeCheck = () => {
   } else {
     size = Math.floor((cWidth / sWidth) * 100 - 1).toString();
   }
-  zoomFit();
-};
-
-const zoomFit = () => {
   document.body.style.zoom = size + "%";
   wHeight = window.innerHeight;
   cHeight = document.documentElement.clientHeight;
   if (wHeight === cHeight) {
+    document.body.style.zoom = "";
     type = "zoom";
     setHost();
-  } else {
-    document.body.style.zoom = "";
-    widthFit();
+    return false;
   }
+  document.body.style.zoom = "";
+  return true;
 };
 
 const widthFit = () => {
@@ -92,26 +86,26 @@ const widthFit = () => {
   wHeight = window.innerHeight;
   cHeight = document.documentElement.clientHeight;
   if (wHeight === cHeight) {
+    document.body.style.zoom = "";
     type = "width";
     setHost();
-  } else {
-    document.body.style.width = "";
-    type = "zoom";
-    size = "100";
-    document.body.style.overflowX = "hidden";
-    document.documentElement.style.overflowX = "hidden";
+    return false;
   }
+  document.body.style.width = "";
+  type = "zoom";
+  size = "100";
+  document.body.style.overflowX = "hidden";
+  document.documentElement.style.overflowX = "hidden";
+  return true;
 };
 
 const setHost = () => {
-  reset();
   empty = {};
   empty[hostWidth] = [type, size];
   chrome.storage.local.set(empty);
 };
 
 const setUrl = () => {
-  reset();
   empty = {};
   empty[urlWidth] = [type, size];
   chrome.storage.local.set(empty);
@@ -129,20 +123,47 @@ const setNoChange = (key) => {
 const reset = () => {
   document.body.style.zoom = "";
   document.body.style.width = "";
-  chrome.storage.local.remove(url).catch(e => { console.error(e); });
-  chrome.storage.local.remove(host).catch(e => { console.error(e); });
-  chrome.storage.local.remove(urlWidth).catch(e => { console.error(e); });
-  chrome.storage.local.remove(hostWidth).catch(e => { console.error(e); });
+  chrome.storage.local.remove(url).catch((e) => {});
+  chrome.storage.local.remove(host).catch((e) => {});
+  chrome.storage.local.remove(urlWidth).catch((e) => {});
+  chrome.storage.local.remove(hostWidth).catch((e) => {});
 };
 
-getItems();
+(async () => {
+  const items = await getItems().catch((e) => {});
+  const toggleCheck = await chrome.storage.local.get("toggle").catch((e) => {});
+  if (!items) {
+    if (scrollCheck()) {
+      if (sizeCheck()) {
+        widthFit();
+      }
+    }
+  }
+  if (toggleCheck.toggle === 1) {
+    fit();
+  }
+})();
 
 let timer;
 window.addEventListener("resize", () => {
   clearTimeout(timer);
-  timer = setTimeout(getItems, 500);
+  timer = setTimeout(async () => {
+    const items = await getItems().catch((e) => {});
+    const toggleCheck = await chrome.storage.local
+      .get("toggle")
+      .catch((e) => {});
+    if (!items) {
+      if (scrollCheck()) {
+        if (sizeCheck()) {
+          widthFit();
+        }
+      }
+    }
+    if (toggleCheck.toggle === 1) {
+      fit();
+    }
+  }, 500);
 });
-
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.msg === "popup") {
@@ -153,9 +174,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     fit();
     sendResponse([type, size]);
   } else if (request.msg === "save_host") {
-    setNoChange();
+    setNoChange(hostWidth);
   } else if (request.msg === "save_url") {
-    setNoChange();
+    setNoChange(urlWidth);
   } else if (request.msg === "reset") {
     type = "zoom";
     size = "100";
