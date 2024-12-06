@@ -1,64 +1,49 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Auto Zoom Out</title>
-    <link rel="stylesheet" href="popup.css" />
-  </head>
 
-  <body>
-    <div class="extension-size">
-      <div class="on-off-section">
-        <div class="toggle-text">自動サイズ調整</div>
-        <label class="toggle-button">
-          <input id="toggle-button" type="checkbox" checked />
-        </label>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <title>Auto Zoom Out</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
 
-      <div class="attention" id="attention"></div>
-
-      <div class="check-section">
-        <select class="select" id="type-element">
-          <option>zoom</option>
-          <option>width</option>
-        </select>
-
-        <input
-          class="input"
-          id="size-element"
-          type="number"
-          min="50"
-          max="200"
-          value="100"
-        />
-
-        <button class="check-button" id="check-button" type="button">
-          適用
-        </button>
-      </div>
-
-      <div class="button-section">
-        <button class="button" id="host-button" type="button">
-          このサイトでは使用しない
-        </button>
-        <button class="button" id="url-button" type="button">
-          このページでは使用しない
-        </button>
-        <div class="border"></div>
-        <button class="button" id="reset-button" type="button">リセット</button>
-      </div>
-
-      <details>
-        <summary class="summary text-section">拡張機能について</summary>
-        <div class="text-section">自動でページサイズを調整します。</div>
-        <div class="text-section">
-          自動サイズ調整をオフにすることで手動調整のみにすることも可能です。
-        </div>
-        <div class="text-section">
-          特定のサイト・ページで調整を無効にしたい場合は上記ボタンを使用してください。
-        </div>
-      </details>
+<body>
+  <div class="extension-size">
+    <div class="on-off-section">
+      <div class="toggle-text">自動サイズ調整</div>
+      <label class="toggle-button">
+        <input id="toggle-button" type="checkbox" checked />
+      </label>
     </div>
-    <script src="popup.js"></script>
-  </body>
+
+    <div class="attention" id="attention"></div>
+
+    <div class="check-section">
+      <select class="select" id="type-element">
+        <option>zoom</option>
+        <option>width</option>
+      </select>
+
+      <input class="input" id="size-element" type="number" min="50" max="200" value="100" />
+
+      <button class="check-button" id="check-button" type="button">適用</button>
+    </div>
+
+    <div class="button-section">
+      <button class="button" id="host-button" type="button">このサイトでは使用しない</button>
+      <button class="button" id="url-button" type="button">このページでは使用しない</button>
+      <div class="border"></div>
+      <button class="button" id="reset-button" type="button">リセット</button>
+    </div>
+
+    <details>
+      <summary class="summary text-section">拡張機能について</summary>
+      <div class="text-section">自動でページサイズを調整します。</div>
+      <div class="text-section">自動サイズ調整をオフにすることで手動調整のみにすることも可能です。</div>
+      <div class="text-section">特定のサイト・ページで調整を無効にしたい場合は上記ボタンを使用してください。</div>
+    </details>
+  </div>
+  <script src="popup.js"></script>
+</body>
+
 </html>
