@@ -132,6 +132,11 @@ const reset = () => {
 (async () => {
   const items = await getItems().catch((e) => {});
   const toggleCheck = await chrome.storage.local.get("toggle").catch((e) => {});
+  if (!toggleCheck.toggle) {
+    console.log("never");
+    chrome.storage.local.set({ toggle: 1 });
+    toggleCheck.toggle = 1;
+  }
   if (!items) {
     if (scrollCheck()) {
       if (sizeCheck()) {
