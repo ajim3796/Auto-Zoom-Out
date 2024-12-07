@@ -1,3 +1,14 @@
+body {
+  font-family: sans-serif;
+}
+
+.attention {
+  font-size: 0.85rem;
+  color: red;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
 .extension-size {
   width: 200px;
 }
@@ -47,12 +58,6 @@
 
 .toggle-button input {
   display: none;
-}
-
-.attention {
-  font-size: 0.85rem;
-  color: red;
-  text-align: center;
 }
 
 .check-section {

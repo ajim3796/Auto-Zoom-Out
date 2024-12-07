@@ -20,7 +20,7 @@ async function sendMessageToActiveTab(message) {
 }
 
 (async () => {
-  const toggleCheck = await chrome.storage.local.get("toggle").catch((e) => {});
+  const toggleCheck = await chrome.storage.local.get().catch((e) => {});
   if (toggleCheck.toggle === 0) {
     toggleButton.checked = false;
   }
