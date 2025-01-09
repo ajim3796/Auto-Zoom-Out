@@ -1,15 +1,13 @@
 const url = location.href;
 const host = location.host;
-let width;
-let urlWidth;
-let hostWidth;
-let wHeight;
-let cHeight;
-let cWidth;
-let sWidth;
-let sLeft;
+let innerHeight;
+let clientHeight;
+let clientWidth;
+let scrollWidth;
+let scrollLeft;
 let type;
 let size;
+let localData;
 
 const fit = () => {
   if (type === "zoom") {
@@ -20,22 +18,13 @@ const fit = () => {
 };
 
 const getItems = async () => {
-  width = window.innerWidth;
-  urlWidth = url + " " + width;
-  hostWidth = host + " " + width;
-  const localData = await chrome.storage.local.get().catch((e) => {});
+  localData = await chrome.storage.local.get().catch((e) => {});
   if (localData[url]) {
     type = localData[url][0];
     size = localData[url][1];
   } else if (localData[host]) {
     type = localData[host][0];
     size = localData[host][1];
-  } else if (localData[urlWidth]) {
-    type = localData[urlWidth][0];
-    size = localData[urlWidth][1];
-  } else if (localData[hostWidth]) {
-    type = localData[hostWidth][0];
-    size = localData[hostWidth][1];
   } else {
     document.body.style.zoom = "";
     document.body.style.width = "";
@@ -45,9 +34,9 @@ const getItems = async () => {
 };
 
 const scrollCheck = () => {
-  wHeight = window.innerHeight;
-  cHeight = document.documentElement.clientHeight;
-  if (wHeight === cHeight) {
+  innerHeight = window.innerHeight;
+  clientHeight = document.documentElement.clientHeight;
+  if (innerHeight === clientHeight) {
     type = "zoom";
     size = "100";
     return false;
@@ -56,25 +45,24 @@ const scrollCheck = () => {
 };
 
 const sizeCheck = () => {
-  cWidth = document.documentElement.clientWidth;
-  sWidth = document.documentElement.scrollWidth;
+  clientWidth = document.documentElement.clientWidth;
+  scrollWidth = document.documentElement.scrollWidth;
   if (document.body.scrollLeft != 0) {
-    sLeft = document.body.scrollLeft;
+    scrollLeft = document.body.scrollLeft;
   } else if (document.documentElement.scrollLeft != 0) {
-    sLeft = document.documentElement.scrollLeft;
+    scrollLeft = document.documentElement.scrollLeft;
   }
-  if (cWidth === sWidth) {
-    size = Math.floor((1 - sLeft / cWidth) * 100 - 1).toString();
+  if (clientWidth === scrollWidth) {
+    size = Math.floor((1 - scrollLeft / clientWidth) * 100 - 1).toString();
   } else {
-    size = Math.floor((cWidth / sWidth) * 100 - 1).toString();
+    size = Math.floor((clientWidth / scrollWidth) * 100 - 1).toString();
   }
   document.body.style.zoom = size + "%";
-  wHeight = window.innerHeight;
-  cHeight = document.documentElement.clientHeight;
-  if (wHeight === cHeight) {
+  innerHeight = window.innerHeight;
+  clientHeight = document.documentElement.clientHeight;
+  if (innerHeight === clientHeight) {
     document.body.style.zoom = "";
     type = "zoom";
-    setHost();
     return false;
   }
   document.body.style.zoom = "";
@@ -83,12 +71,11 @@ const sizeCheck = () => {
 
 const widthFit = () => {
   document.body.style.width = size + "%";
-  wHeight = window.innerHeight;
-  cHeight = document.documentElement.clientHeight;
-  if (wHeight === cHeight) {
+  innerHeight = window.innerHeight;
+  clientHeight = document.documentElement.clientHeight;
+  if (innerHeight === clientHeight) {
     document.body.style.zoom = "";
     type = "width";
-    setHost();
     return false;
   }
   document.body.style.width = "";
@@ -99,25 +86,10 @@ const widthFit = () => {
   return true;
 };
 
-const setHost = () => {
-  empty = {};
-  empty[hostWidth] = [type, size];
-  chrome.storage.local.set(empty);
-};
-
-const setUrl = () => {
-  empty = {};
-  empty[urlWidth] = [type, size];
-  chrome.storage.local.set(empty);
-};
-
-const setNoChange = (key) => {
-  reset();
-  type = "zoom";
-  size = "100";
-  empty = {};
-  empty[key] = [type, size];
-  chrome.storage.local.set(empty);
+const setStrage = (key, type = "zoom", size = "100") => {
+  dic = {};
+  dic[key] = [type, size];
+  chrome.storage.local.set(dic);
 };
 
 const reset = () => {
@@ -125,13 +97,14 @@ const reset = () => {
   document.body.style.width = "";
   chrome.storage.local.remove(url).catch((e) => {});
   chrome.storage.local.remove(host).catch((e) => {});
-  chrome.storage.local.remove(urlWidth).catch((e) => {});
-  chrome.storage.local.remove(hostWidth).catch((e) => {});
 };
 
 (async () => {
   const items = await getItems().catch((e) => {});
-  const toggleCheck = await chrome.storage.local.get("toggle").catch((e) => {});
+  if (!("toggle" in localData)) {
+    chrome.storage.local.set({ toggle: 1 });
+    localData.toggle = 1;
+  }
   if (!items) {
     if (scrollCheck()) {
       if (sizeCheck()) {
@@ -139,9 +112,7 @@ const reset = () => {
       }
     }
   }
-  if (toggleCheck.toggle === 1) {
-    fit();
-  }
+  fit();
 })();
 
 let timer;
@@ -149,9 +120,6 @@ window.addEventListener("resize", () => {
   clearTimeout(timer);
   timer = setTimeout(async () => {
     const items = await getItems().catch((e) => {});
-    const toggleCheck = await chrome.storage.local
-      .get("toggle")
-      .catch((e) => {});
     if (!items) {
       if (scrollCheck()) {
         if (sizeCheck()) {
@@ -159,9 +127,7 @@ window.addEventListener("resize", () => {
         }
       }
     }
-    if (toggleCheck.toggle === 1) {
-      fit();
-    }
+    fit();
   }, 500);
 });
 
@@ -172,11 +138,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     type = request.type;
     size = request.size;
     fit();
+    setStrage(url, type, size);
     sendResponse([type, size]);
   } else if (request.msg === "save_host") {
-    setNoChange(hostWidth);
+    setStrage(host);
   } else if (request.msg === "save_url") {
-    setNoChange(urlWidth);
+    setStrage(url);
   } else if (request.msg === "reset") {
     type = "zoom";
     size = "100";

@@ -1,14 +1,28 @@
+body {
+  font-family: sans-serif;
+}
+
+.attention {
+  font-size: 0.85rem;
+  color: red;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
 .extension-size {
   width: 200px;
 }
+
 .on-off-section {
   display: flex;
   margin-left: 5px;
   margin-right: 5px;
 }
+
 .toggle-text {
   font-size: 1rem;
 }
+
 .toggle-button {
   display: flex;
   align-items: center;
@@ -21,9 +35,11 @@
   transition: background-color;
   margin: auto 5px auto auto;
 }
+
 .toggle-button:has(:checked) {
   background-color: #4bd865;
 }
+
 .toggle-button::after {
   position: absolute;
   left: 0;
@@ -35,50 +51,55 @@
   content: "";
   transition: left;
 }
+
 .toggle-button:has(:checked)::after {
   left: 1rem;
 }
+
 .toggle-button input {
   display: none;
 }
-.attention {
-  font-size: 0.85rem;
-  color: red;
-  text-align: center;
-}
+
 .check-section {
   margin-top: 8px;
   display: flex;
   justify-content: space-between;
 }
+
 .select {
   width: 32%;
   appearance: unset;
   text-align: center;
   font-size: 1rem;
 }
+
 .input {
   width: 32%;
   text-align: center;
   font-size: 1rem;
 }
+
 .check-button {
   width: 26%;
 }
+
 .text-section {
   margin-top: 8px;
   margin-left: 5px;
   margin-right: 5px;
   color: gray;
 }
+
 .button {
   margin-top: 8px;
   width: 100%;
 }
+
 .border {
   border-bottom: 1px solid gray;
   margin-top: 8px;
 }
+
 .summary {
   cursor: help;
 }

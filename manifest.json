@@ -1,21 +1,27 @@
 {
-  "manifest_version": 3,
-  "name": "Auto zoom out",
-  "version": "1.0.2",
-  "description": "ページを画面サイズに合わせてズームアウトする拡張機能",
-  "icons": {
-    "128": "icon-128.png"
-  },
-  "action": {
-    "default_icon": "icon-128.png",
-    "default_title": "Auto zoom out",
-    "default_popup": "popup.html"
-  },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"]
-    }
-  ],
-  "permissions": ["storage"]
+   "manifest_version": 3,
+   "name": "Auto zoom out",
+   "version": "1.0.5",
+   "description": "ページを画面サイズに合わせてズームアウトする拡張機能",
+   "icons": {
+      "128": "icon-128.png"
+   },
+   "action": {
+      "default_icon": "icon-128.png",
+      "default_title": "Auto zoom out",
+      "default_popup": "popup.html"
+   },
+   "content_scripts": [
+      {
+         "matches": [
+            "<all_urls>"
+         ],
+         "js": [
+            "content.js"
+         ]
+      }
+   ],
+   "permissions": [
+      "storage"
+   ]
 }
